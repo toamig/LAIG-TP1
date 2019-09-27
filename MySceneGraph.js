@@ -28,6 +28,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
+        this.referenceLength = null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -373,6 +374,8 @@ class MySceneGraph {
                 global.push(...[angle, exponent, targetLight])
             }
 
+            console.log(global);
+
             this.lights[lightId] = global;
             numLights++;
         }
@@ -408,8 +411,8 @@ class MySceneGraph {
             }
 
             // Get id of the current texture.
-            var id = this.reader.getString(children[i], 'id');
-            if (id == null)
+            var texId = this.reader.getString(children[i], 'id');
+            if (texId == null)
                 return "no ID defined for texture";
 
             // Get file url        
@@ -419,7 +422,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.textures[texId] != null)
-            return "ID must be unique for each texture (conflict: ID = " + texID + ")";
+            return "ID must be unique for each texture (conflict: ID = " + texID + ")"; 
 
             this.textures[texId] = global;
             this.numTextures++;
@@ -461,8 +464,31 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            grandChildren = children[i].children;
+            // Specifications for the current light.
+
+            nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            for (var j = 0; j < attributeNames.length; j++) {
+                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+
+                if (attributeIndex != -1) {
+                    if (attributeTypes[j] == "position")
+                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
+                    else
+                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+
+                    if (!Array.isArray(aux))
+                        return aux;
+
+                    global.push(aux);
+                }
+                else
+                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
+            }
         }
 
         //this.log("Parsed materials");
