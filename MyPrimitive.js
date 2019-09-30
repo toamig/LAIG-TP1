@@ -13,7 +13,7 @@ class MyPrimitive{
 
             break;
             case 'cylinder':
-
+                this.primitive = new MyCylinder(this.graph.scene,this.primitiveID,this.type[0],this.type[1],this.type[2],this.type[3],this.type[4]);
             break;
             case 'sphere':
 
