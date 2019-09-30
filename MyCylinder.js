@@ -2,9 +2,13 @@
  * MyCylinder
  * @constructor
  * @param scene - Reference to MyScene object
- * @param x - Scale of rectangle in X
- * @param y - Scale of rectangle in Y
+ * @param base - Cylinder base radius
+ * @param top - Cylinder top radius
+ * @param height - Cylinder height
+ * @param slices - Cylinder slices
+ * @param stacks - Cylinder stacks
  */
+
 class MyCylinder extends CGFobject {
 	constructor(scene, id, base, top, height, slices, stacks) {
 		super(scene);
@@ -16,7 +20,9 @@ class MyCylinder extends CGFobject {
 
 		this.initBuffers();
 	}
-	
+
+	//Still not done from this point forward
+
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, 0,	//0

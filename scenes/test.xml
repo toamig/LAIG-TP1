@@ -64,9 +64,11 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <primitiveref id="rectangle" />
+                <componentref id="table" />
             </children>
         </component>
+
+        <!-- Table and it's components -->
 
         <component id="tableLeg1">
             <transformation>
@@ -77,7 +79,7 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -90,7 +92,7 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -103,7 +105,7 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -116,7 +118,85 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopTop">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopBottom">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopLeft">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopRight">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopFront">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="tableTopBack">
+            <transformation>
+
+            </transformation>
+            <materials>
+
+            </materials>
+            <texture id="texture"/>
+            <children>
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -129,7 +209,12 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <componentref id="tableTopTop" />
+                <componentref id="tableTopBottom" />
+                <componentref id="tableTopLeft" />
+                <componentref id="tableTopRight" />
+                <componentref id="tableTopFront" />
+                <componentref id="tableTopRight" /> 
             </children>
         </component>
 
@@ -142,9 +227,15 @@
             </materials>
             <texture id="texture"/>
             <children>
-                <!--Missing children-->
+                <componentref id="tableTop" />
+                <componentref id="tableLeg1" />
+                <componentref id="tableLeg2" />
+                <componentref id="tableLeg3" />
+                <componentref id="tableLeg4" />                
             </children>
         </component>
+
+        <!-- Table and it's components -->
 
     </components>
 </lxs>
