@@ -28,7 +28,8 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-        this.referenceLength = null;
+        this.referenceLength = null;           // Default axis length.
+        this.defaultCamera = null;             // The id of the default camera.
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -228,8 +229,100 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        var children = viewsNode.children;
 
+        this.views = [];
+        var numLights = 0;
+
+        var grandChildren = [];
+        var nodeNames = [];
+
+        // Any number of views.
+        for (var i = 0; i < children.length; i++) {
+
+            // Storing view information
+            var global = [];
+            var attributeNames = [];
+            var attributeTypes = [];
+
+            //Check type of view
+            if (children[i].nodeName != "perspective" && children[i].nodeName != "ortho") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current view.
+            var viewId = this.reader.getString(children[i], 'id'); 
+            if (viewId == null)
+                return "no ID defined for light";
+
+            // Checks for repeated IDs.
+            if (this.views[viewId] != null)
+                return "ID must be unique for each light (conflict: ID = " + viewId + ")";
+
+            grandChildren = children[i].children;
+            // Specifications for the current view.
+
+            nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            for (var j = 0; j < attributeNames.length; j++) {
+                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+
+                if (attributeIndex != -1) {
+                    if (attributeTypes[j] == "position")
+                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
+                    else
+                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+
+                    if (!Array.isArray(aux))
+                        return aux;
+
+                    global.push(aux);
+                }
+                else
+                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
+            }
+
+            // Gets the additional attributes of the spot light
+            if (children[i].nodeName == "spot") {
+                var angle = this.reader.getFloat(children[i], 'angle');
+                if (!(angle != null && !isNaN(angle)))
+                    return "unable to parse angle of the light for ID = " + lightId;
+
+                var exponent = this.reader.getFloat(children[i], 'exponent');
+                if (!(exponent != null && !isNaN(exponent)))
+                    return "unable to parse exponent of the light for ID = " + lightId;
+
+                var targetIndex = nodeNames.indexOf("target");
+
+                // Retrieves the light target.
+                var targetLight = [];
+                if (targetIndex != -1) {
+                    var aux = this.parseCoordinates3D(grandChildren[targetIndex], "target light for ID " + lightId);
+                    if (!Array.isArray(aux))
+                        return aux;
+
+                    targetLight = aux;
+                }
+                else
+                    return "light target undefined for ID = " + lightId;
+
+                global.push(...[angle, exponent, targetLight])
+            }
+
+            this.lights[lightId] = global;
+            numLights++;
+        }
+
+        if (numLights == 0)
+            return "at least one light must be defined";
+        else if (numLights > 8)
+            this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+
+        this.log("Parsed lights");
         return null;
     }
 
@@ -374,8 +467,6 @@ class MySceneGraph {
                 global.push(...[angle, exponent, targetLight])
             }
 
-            console.log(global);
-
             this.lights[lightId] = global;
             numLights++;
         }
@@ -415,10 +506,14 @@ class MySceneGraph {
             if (texId == null)
                 return "no ID defined for texture";
 
+            global.push(texId);
+
             // Get file url        
             var file_url = this.reader.getString(children[i], 'id');
             if (file_url == null)
                 this.onXMLMinorError("no file defined for texture");
+
+            global.push(file_url);
 
             // Checks for repeated IDs.
             if (this.textures[texId] != null)
@@ -613,7 +708,7 @@ class MySceneGraph {
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                if (!(y2 != null && !isNaN(y2) && y2 > y1)) 
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
