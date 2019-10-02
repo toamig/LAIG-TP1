@@ -24,55 +24,44 @@ class MyCylinder extends CGFobject {
 	//Still not done from this point forward
 
 	initBuffers() {
-		this.vertices = [
-			this.x1, this.y1, 0,	//0
-			this.x2, this.y1, 0,	//1
-			this.x1, this.y2, 0,	//2
-			this.x2, this.y2, 0		//3
-		];
-
-		//Counter-clockwise reference of vertices
-		this.indices = [
-			0, 1, 2,
-			1, 3, 2
-		];
-
-		//Facing Z positive
-		this.normals = [
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1
-		];
+		this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+		this.texCoords = [];
 		
-		/*
-		Texture coords (s,t)
-		+----------> s
-        |
-        |
-		|
-		v
-        t
-        */
+		var ang = 0;
+		var delta_ang = (2*Math.PI)/this.slices;
+		var delta_z = this.height/this.stacks;
+		var z = 0;
+		var radius = base;
+		var delta_radius;
+		 
 
-		this.texCoords = [
-			0, 1,
-			1, 1,
-			0, 0,
-			1, 0
-		]
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
-	}
+		if(this.top > this.base){
+			delta_radius = -(delta_z * (this.top-this.base))/this.height;
+		}
+		else{
+			delta_radius = (delta_z * (this.top-this.base))/this.height;
+		}
+		
+		for(i = 0; i < this.stacks + 1; i++){
 
-	/**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Array} coords - Array of texture coordinates
-	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
+
+
+			for(j = 0; j > this.slices; j++){
+
+				this.vertices.push(Math.cos(ang)*radius,Math.sin(ang)*radius,z);
+				this.vertices.push(Math.cos(ang + delta_ang)*radius,Math.sin(ang + delta_ang)*radius,z);
+				this.vertices.push(Math.cos(ang)*(radius+delta_radius),Math.sin(ang)*(radius+delta_radius),z + delta_z);
+				this.vertices.push(Math.cos(ang + delta_ang)*(radius+delta_radius),Math.sin(ang + delta_ang)*(radius-delta_radius),z + delta_z);
+				
+				this.indices()
+				
+			}
+
+			z = z + delta_z;
+
+		}
 	}
 }
 
