@@ -35,6 +35,23 @@ class MyCylinder extends CGFobject {
 		var z = 0;
 		var radius = base;
 		var delta_radius;
+		var normal_ang
+
+		if(this.top > this.base){
+			var delta = this.top-this.base;
+			var alpha = Math.atan(delta/this.height);
+			var beta = Math.PI/2 - alpha;
+			normal_ang = Math.PI-(beta+Math.PI/2);
+		}
+		else if(this.top < this.base){
+			var delta = this.base-this.top;
+			var alpha = Math.atan(delta/this.height);
+			var beta = Math.PI/2 - alpha;
+			normal_ang = Math.PI-(beta+Math.PI/2);
+		}
+		else{
+			normal_ang = 0;
+		}
 		 
 
 		if(this.top > this.base){
@@ -46,22 +63,45 @@ class MyCylinder extends CGFobject {
 		
 		for(i = 0; i < this.stacks + 1; i++){
 
-
-
 			for(j = 0; j > this.slices; j++){
 
 				this.vertices.push(Math.cos(ang)*radius,Math.sin(ang)*radius,z);
-				this.vertices.push(Math.cos(ang + delta_ang)*radius,Math.sin(ang + delta_ang)*radius,z);
-				this.vertices.push(Math.cos(ang)*(radius+delta_radius),Math.sin(ang)*(radius+delta_radius),z + delta_z);
-				this.vertices.push(Math.cos(ang + delta_ang)*(radius+delta_radius),Math.sin(ang + delta_ang)*(radius-delta_radius),z + delta_z);
 				
-				this.indices()
-				
+				this.normals.push(Math.cos(ang),Math.sin(ang),Math.sin(normal_ang));
+
+				ang = ang + delta_ang;
 			}
 
 			z = z + delta_z;
 
+			ang = 0;
+
 		}
+
+		for (i = 0; i < this.stacks ; i++) {
+			for (j = 0; j < this.slices ; j++) {
+				if (j==this.slices-1) {
+					this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices);
+					this.indices.push((i+1)*this.slices,i*this.slices,i*this.slices + j);
+				} else {
+					this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices+(j+1));
+					this.indices.push((i+1)*this.slices+(j+1),i*this.slices+j+1,i*this.slices + j);
+				}
+			}
+		}
+		
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
+
+		/**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the rectangle
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(coords) {
+		this.texCoords = [...coords];
+		this.updateTexCoordsGLBuffers();
 	}
 }
 
