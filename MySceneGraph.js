@@ -588,7 +588,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
             // Get shininess value
             var shininess = this.reader.getFloat(children[i], 'shininess');
@@ -675,12 +675,34 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                    case 'scale':
+                        var scaleX = this.reader.getFloat(grandChildren[j], 'x');
+                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
+                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        var scaleY = this.reader.getFloat(grandChildren[j], 'y');
+                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
+                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        var scaleZ = this.reader.getFloat(grandChildren[j], 'z');
+                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
+                            return "unable to parse axis of the transformation for ID = " + transformationID;
+
+                        transfMatrix = mat4.scale(transformArray, transformArray, [sx, sy, sz]);
                         break;
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis = this.reader.getString(grandChildren[j], 'axis');
+                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
+                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse angle of the transformation for ID = " + transformationID;
+                        
+                        var axisVec3 = [];
+                        switch(axis){
+                            case 'x': axisVec3.push(...[1, 0, 0]);break;
+                            case 'y': axisVec3.push(...[0, 1, 0]);break;
+                            case 'z': axisVec3.push(...[0, 0, 1]);break;
+                        }
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle * DEGREE_TO_RAD, axisVec3);
                         break;
                 }
             }
