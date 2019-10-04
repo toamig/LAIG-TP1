@@ -30,40 +30,41 @@ class MyCylinder extends CGFobject {
 		this.texCoords = [];
 		
 		var ang = 0;
-		var delta_ang = (2*Math.PI)/this.slices;
+		var delta_ang =-(2*Math.PI)/this.slices; // sentido negativo???
 		var delta_z = this.height/this.stacks;
 		var z = 0;
-		var radius = base;
+		var radius = this.base;
 		var delta_radius;
-		var normal_ang
+		var normal_ang;
+		var delta;
+		var alpha;
+		var beta;
 
 		if(this.top > this.base){
-			var delta = this.top-this.base;
-			var alpha = Math.atan(delta/this.height);
-			var beta = Math.PI/2 - alpha;
-			normal_ang = Math.PI-(beta+Math.PI/2);
+			delta = this.top-this.base;
 		}
 		else if(this.top < this.base){
-			var delta = this.base-this.top;
-			var alpha = Math.atan(delta/this.height);
-			var beta = Math.PI/2 - alpha;
-			normal_ang = Math.PI-(beta+Math.PI/2);
+			delta = this.base-this.top;
 		}
 		else{
-			normal_ang = 0;
+			delta = 0;
 		}
+
+		alpha = Math.atan(delta/this.height);
+		beta = Math.PI/2 - alpha;
+		normal_ang = Math.PI-(beta+Math.PI/2);
 		 
 
 		if(this.top > this.base){
 			delta_radius = -(delta_z * (this.top-this.base))/this.height;
 		}
 		else{
-			delta_radius = (delta_z * (this.top-this.base))/this.height;
+			delta_radius = (delta_z * (this.base - this.top))/this.height;
 		}
 		
-		for(i = 0; i < this.stacks + 1; i++){
+		for(var i = 0; i < this.stacks + 1; i++){
 
-			for(j = 0; j > this.slices; j++){
+			for(var j = 0; j < this.slices; j++){
 
 				this.vertices.push(Math.cos(ang)*radius,Math.sin(ang)*radius,z);
 				
@@ -72,20 +73,25 @@ class MyCylinder extends CGFobject {
 				ang = ang + delta_ang;
 			}
 
+			radius = radius + delta_radius;
+
 			z = z + delta_z;
 
 			ang = 0;
 
 		}
 
-		for (i = 0; i < this.stacks ; i++) {
-			for (j = 0; j < this.slices ; j++) {
+		for (var i = 0; i < this.stacks ; i++) {
+			for (var j = 0; j < this.slices ; j++) {
 				if (j==this.slices-1) {
 					this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices);
 					this.indices.push((i+1)*this.slices,i*this.slices,i*this.slices + j);
 				} else {
-					this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices+(j+1));
-					this.indices.push((i+1)*this.slices+(j+1),i*this.slices+j+1,i*this.slices + j);
+					//this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices+(j+1));
+					//this.indices.push((i+1)*this.slices+(j+1),i*this.slices+j+1,i*this.slices + j);
+
+					this.indices.push(i*this.slices+j+1,i*this.slices + j,(i+1)*this.slices+(j+1));
+					this.indices.push((i+1)*this.slices+(j+1),i*this.slices + j,(i+1)*this.slices + j);
 				}
 			}
 		}
@@ -104,4 +110,3 @@ class MyCylinder extends CGFobject {
 		this.updateTexCoordsGLBuffers();
 	}
 }
-
