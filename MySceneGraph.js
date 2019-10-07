@@ -596,7 +596,7 @@ class MySceneGraph {
                 this.onXMLMinorError("unable to parse value component of the 'shininess' field for ID = " + materialID);
 
             //Add shininess to light info
-            global.push(shi);
+            global.push(shininess);
 
             grandChildren = children[i].children;
             // Specifications for the current material.
@@ -678,13 +678,13 @@ class MySceneGraph {
                     case 'scale':
                         var scaleX = this.reader.getFloat(grandChildren[j], 'x');
                         if (!(scaleX != null && !isNaN(scaleX)))
-                            return "unable to parse x scale value for transformation for ID = " + transformationId;
+                            return "unable to parse x scale value for transformation ID = " + transformationId;
                         var scaleY = this.reader.getFloat(grandChildren[j], 'y');
                         if (!(scaleY != null && !isNaN(scaleY)))
-                            return "unable to parse y scale value for transformation for ID = " + transformationId;
+                            return "unable to parse y scale value for transformation ID = " + transformationId;
                         var scaleZ = this.reader.getFloat(grandChildren[j], 'z');
                         if (!(scaleZ != null && !isNaN(scaleZ)))
-                            return "unable to parse z scale value for transformation for ID = " + transformationId;
+                            return "unable to parse z scale value for transformation ID = " + transformationId;
 
                         transfMatrix = mat4.scale(transformArray, transformArray, [scaleX, scaleY, scaleZ]);
                         break;
@@ -839,6 +839,8 @@ class MySceneGraph {
                 grandgrandChildren = grandChildren[j].children;
 
                 var transformations = [];
+                var materials = [];
+                var textureId = textureId || null;
 
                 // Transformation
                 if(j == transformationIndex){
@@ -858,34 +860,64 @@ class MySceneGraph {
                         else if(grandgrandChildren[k].nodeName == "scale"){
                             var scaleX = this.reader.getFloat(grandChildren[j], 'x');
                         if (!(scaleX != null && !isNaN(scaleX)))
-                            return "unable to parse x scale value for transformation for ID = " + transformationId;
+                            return "unable to parse x scale value for transformation ID = " + transformationId;
                             var scaleY = this.reader.getFloat(grandChildren[j], 'y');
                             if (!(scaleY != null && !isNaN(scaleY)))
-                            return "unable to parse y scale value for transformation for ID = " + transformationId;
+                            return "unable to parse y scale value for transformation ID = " + transformationId;
                             var scaleZ = this.reader.getFloat(grandChildren[j], 'z');
                             if (!(scaleZ != null && !isNaN(scaleZ)))
-                                return "unable to parse z scale value for transformation for ID = " + transformationId;
+                                return "unable to parse z scale value for transformation ID = " + transformationId;
 
                             transfMatrix = mat4.scale(transformArray, transformArray, [scaleX, scaleY, scaleZ]);
                         }
                         else if(grandgrandChildren[k].nodeName == "rotate"){
-                            
+                            var axis = this.reader.getString(grandChildren[j], 'axis');
+                            if (!(axis == 'x' && axis == 'y' && axis == 'z'))
+                                return "unable to parse axis of the transformation for ID = " + transformationId;
+                            var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                            if (!(angle != null && !isNaN(angle)))
+                                return "unable to parse angle of the transformation for ID = " + transformationId;
+                        
+                            var axisVec3 = [];
+                            switch(axis){
+                                case 'x': axisVec3.push(...[1, 0, 0]);break;
+                                case 'y': axisVec3.push(...[0, 1, 0]);break;
+                                case 'z': axisVec3.push(...[0, 0, 1]);break;
+                            }
+                            transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle * DEGREE_TO_RAD, axisVec3);
                         }
                     }
                 }
+
+                // Materials
                 else if(j == materialsIndex){
+
+                    for(var k = 0; k < grandgrandChildren.length; k++){
+
+                        if(grandgrandChildren[k].nodeName == "material"){
+                            var materialId = this.reader.getString(grandgrandChildren[k], 'id');
+                            materials.push(this.transformations[materialId]);
+                        }
+                    }
+                }
+
+                // Texture
+                else if(j == textureIndex){
+                    
+                    textureId = this.reader.getString(grandChildren[j], 'id');
+                }
+
+                // Children
+                else if(j == childrenIndex){
 
                 }
 
                 global.push(transformations);
+                global.push(materials);
+                global.push(textureId);
+                
 
             }
-
-            // Materials
-
-            // Texture
-
-            // Children
 
             this.components[componentID].push(global);
         }
