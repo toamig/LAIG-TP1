@@ -419,7 +419,7 @@ class MySceneGraph {
             }
             else {
                 attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
+                attributeTypes.push(...["position", "color", "FIndex", "color"]);
             }
 
             // Get id of the current light.
@@ -653,13 +653,13 @@ class MySceneGraph {
             }
 
             // Get id of the current transformation.
-            var transformationID = this.reader.getString(children[i], 'id');
-            if (transformationID == null)
+            var transformationId = this.reader.getString(children[i], 'id');
+            if (transformationId == null)
                 return "no ID defined for transformation";
 
             // Checks for repeated IDs.
-            if (this.transformations[transformationID] != null)
-                return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
+            if (this.transformations[transformationId] != null)
+                return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
 
             grandChildren = children[i].children;
             // Specifications for the current transformation.
@@ -669,7 +669,7 @@ class MySceneGraph {
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
                     case 'translate':
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationId);
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
@@ -677,24 +677,24 @@ class MySceneGraph {
                         break;
                     case 'scale':
                         var scaleX = this.reader.getFloat(grandChildren[j], 'x');
-                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
-                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        if (!(scaleX != null && !isNaN(scaleX)))
+                            return "unable to parse x scale value for transformation for ID = " + transformationId;
                         var scaleY = this.reader.getFloat(grandChildren[j], 'y');
-                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
-                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        if (!(scaleY != null && !isNaN(scaleY)))
+                            return "unable to parse y scale value for transformation for ID = " + transformationId;
                         var scaleZ = this.reader.getFloat(grandChildren[j], 'z');
-                        if (!(axis == 'x' && axis == 'y' && axis == 'z'))
-                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                        if (!(scaleZ != null && !isNaN(scaleZ)))
+                            return "unable to parse z scale value for transformation for ID = " + transformationId;
 
-                        transfMatrix = mat4.scale(transformArray, transformArray, [sx, sy, sz]);
+                        transfMatrix = mat4.scale(transformArray, transformArray, [scaleX, scaleY, scaleZ]);
                         break;
                     case 'rotate':
                         var axis = this.reader.getString(grandChildren[j], 'axis');
                         if (!(axis == 'x' && axis == 'y' && axis == 'z'))
-                            return "unable to parse axis of the transformation for ID = " + transformationID;
+                            return "unable to parse axis of the transformation for ID = " + transformationId;
                         var angle = this.reader.getFloat(grandChildren[j], 'angle');
                         if (!(angle != null && !isNaN(angle)))
-                            return "unable to parse angle of the transformation for ID = " + transformationID;
+                            return "unable to parse angle of the transformation for ID = " + transformationId;
                         
                         var axisVec3 = [];
                         switch(axis){
@@ -706,7 +706,7 @@ class MySceneGraph {
                         break;
                 }
             }
-            this.transformations[transformationID] = transfMatrix;
+            this.transformations[transformationId] = transfMatrix;
         }
 
         this.log("Parsed transformations");
@@ -805,6 +805,9 @@ class MySceneGraph {
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
 
+            // Storing view information
+            var global = [];
+
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -830,17 +833,61 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            
+            for(var j = 0; j < grandChildren.length; j++){
 
-            this.components[componentID] = new Node(componentID,transformationIndex,materialsIndex,textureIndex,childrenIndex);
+                grandgrandChildren = grandChildren[j].children;
 
-            this.onXMLMinorError("To do: Parse components.");
-            // Transformations
+                var transformations = [];
+
+                // Transformation
+                if(j == transformationIndex){
+
+                    for(var k = 0; k < grandgrandChildren.length; k++){
+
+                        var transfMatrix = mat4.create();
+
+                        if(grandgrandChildren[k].nodeName == "transformationref"){
+                            var transformationId = this.reader.getString(grandgrandChildren[k], 'id');
+                            transformations.push(this.transformations[transformationId]);
+                        }
+                        else if(grandgrandChildren[k].nodeName == "translate"){
+                            var coordinates = this.parseCoordinates3D(grandgrandChildren[k], "translate transformation for ID " + componentID);
+                            transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                        }
+                        else if(grandgrandChildren[k].nodeName == "scale"){
+                            var scaleX = this.reader.getFloat(grandChildren[j], 'x');
+                        if (!(scaleX != null && !isNaN(scaleX)))
+                            return "unable to parse x scale value for transformation for ID = " + transformationId;
+                            var scaleY = this.reader.getFloat(grandChildren[j], 'y');
+                            if (!(scaleY != null && !isNaN(scaleY)))
+                            return "unable to parse y scale value for transformation for ID = " + transformationId;
+                            var scaleZ = this.reader.getFloat(grandChildren[j], 'z');
+                            if (!(scaleZ != null && !isNaN(scaleZ)))
+                                return "unable to parse z scale value for transformation for ID = " + transformationId;
+
+                            transfMatrix = mat4.scale(transformArray, transformArray, [scaleX, scaleY, scaleZ]);
+                        }
+                        else if(grandgrandChildren[k].nodeName == "rotate"){
+                            
+                        }
+                    }
+                }
+                else if(j == materialsIndex){
+
+                }
+
+                global.push(transformations);
+
+            }
 
             // Materials
 
             // Texture
 
             // Children
+
+            this.components[componentID].push(global);
         }
     }
 
