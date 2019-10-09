@@ -8,19 +8,22 @@ class MyPrimitive{
         switch(this.type.nodeName){
             case 'rectangle':
                 this.primitive = new MyRectangle(this.graph.scene,this.primitiveID,this.type[0],this.type[1],this.type[2],this.type[3]);
-            break;
-            case 'triangle':
-
-            break;
+                break;
             case 'cylinder':
                 this.primitive = new MyCylinder(this.graph.scene,this.primitiveID,this.type[0],this.type[1],this.type[2],this.type[3],this.type[4]);
-            break;
+                break;
+            /*case 'triangle':
+
+                break;
             case 'sphere':
 
-            break;
+                break;
             case 'torus':
 
-            break;
+                break;*/
+            default: 
+                break;
+
         }
     }
 
