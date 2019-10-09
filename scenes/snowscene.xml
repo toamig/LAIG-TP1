@@ -78,20 +78,20 @@
     <primitives>
         <primitive id="rectangle">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
-        </primitive >
-        <primitive id="tor">
-            <torus inner="1" outer="3" slices="30" loops="30" />
         </primitive>
+        <!--<primitive id="tor">
+            <torus inner="1" outer="3" slices="30" loops="30" />
+        </primitive>-->
         <primitive id="cylinder">
             <cylinder base="1" top="1" height="6" slices="30" stacks="30" />
         </primitive>
         <primitive id="cone">
             <cylinder base="0.5" top="0" height="1" slices="30" stacks="30" />
         </primitive>
-        <primitive id="sphere">
+        <!--<primitive id="sphere">
             <sphere radius="2" slices="30" stacks="30" />
-        </primitive>
-    </primitives >
+        </primitive>-->
+    </primitives>
 
     <components>
         <component id="root">
@@ -105,11 +105,11 @@
                 <componentref id="tree4" />
                 <componentref id="floor" />
                 <componentref id="house" />
-                <componentref id="snowball" />
+                <!--<componentref id="snowball" />-->
             </children>
         </component>
 
-        <component id="snowball">
+        <!--<component id="snowball">
             <transformation>
                 <transformationref id="trans0" />
                 <scale x="0.5" y="0.5" z="0.5" />
@@ -121,7 +121,7 @@
             <children>
                 <primitiveref id="sphere" />
             </children>
-        </component>
+        </component>-->
 
         <component id="right">
             <transformation>

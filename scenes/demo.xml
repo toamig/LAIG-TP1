@@ -1,5 +1,5 @@
 <lxs>
-    <scene root="demoRoot" axis_length="5.0"/>
+    <scene root="demoChild" axis_length="5.0"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -47,9 +47,26 @@
         <primitive id="demoRectangle">
             <rectangle x1="-0.5" x2="0.5" y1="-1" y2="1" />
         </primitive>
+        <primitive id="demoCylinder">
+            <cylinder base="1" top="1" height="6" slices="30" stacks="30" />
+        </primitive>
     </primitives>
 
     <components>
+
+        <component id="demoChild">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+        </component>
         <component id="demoRoot">
             <transformation>
                 <translate x="0" y="0" z="1" />
@@ -61,7 +78,13 @@
             <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="demoRectangle" />
+                <componentref id="demoChild" />
             </children>
         </component>
+
+        
+
+        
+
     </components>
 </lxs>

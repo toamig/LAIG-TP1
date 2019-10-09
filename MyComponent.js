@@ -16,8 +16,9 @@ class MyComponent{
 
     display(){
 
-        this.graph.primitives["demoRectangle"].display();
-            
+        for (var key in this.children) {
+            this.graph.nodes[this.children[key]].display();
+        }
         
     }
 }
