@@ -98,6 +98,10 @@
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="none" />
             <children>
                 <componentref id="tree1" />
                 <componentref id="tree2" />
@@ -209,7 +213,7 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="inherit" length_s="0.1" length_t="0.1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="right" />
                 <componentref id="left" />
@@ -235,7 +239,7 @@
             </children>
         </component>
 
-        <component id="top">
+        <component id="tree_top">
             <transformation>
                 <translate x="0" y="6" z="0" />
                 <scale x="4" y="6" z="4" />
@@ -257,10 +261,10 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="trunk" />
-                <componentref id="top" />
+                <componentref id="tree_top" />
             </children>
         </component>
 
@@ -271,10 +275,10 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="trunk" />
-                <componentref id="top" />
+                <componentref id="tree_top" />
             </children>
         </component>
 
@@ -285,10 +289,10 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="trunk" />
-                <componentref id="top" />
+                <componentref id="tree_top" />
             </children>
         </component>
 
@@ -299,10 +303,10 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="trunk" />
-                <componentref id="top" />
+                <componentref id="tree_top" />
             </children>
         </component>
 

@@ -16,9 +16,13 @@ class MyComponent{
 
     display(){
 
-        for (var key in this.children) {
+        this.graph.scene.pushMatrix();
+        for(var key in this.transformations){
+            this.graph.scene.multMatrix(this.transformations[key]);
+        }
+        for(var key in this.children) {
             this.graph.nodes[this.children[key]].display();
         }
-        
+        this.graph.scene.popMatrix();
     }
 }
