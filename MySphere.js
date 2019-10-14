@@ -23,14 +23,15 @@ class MySphere extends CGFobject {
 		this.normals = [];
         this.texCoords = [];
 
-        var delta_ang_slice = (2*Math.PI)/this.slices;
+        var delta_ang_slice = -(2*Math.PI)/this.slices;
         var delta_ang_stack = (Math.PI/2)/this.stacks;
         var ang_slice = 0;
         var ang_stack = 0;
         
         for(var i = 0; i < this.stacks+1; i++){
 
-            var stack_radius = this.radius * math.cos(ang_stack);
+            ang_slice = 0;
+            var stack_radius = this.radius * Math.cos(ang_stack);
 
             for(var j = 0; j < this.slices; j++){
 
@@ -62,11 +63,12 @@ class MySphere extends CGFobject {
 
                 if(i = 0){
                     if(j = this.slices-1){
-                        
+                        this.indices.push(i*this.slices+j, (i+1)*this.slices, (i+1)*this.slices+j);
+                        this.indices.push(i*this.slices+j, i*this.slices, (i+1)*this.slices);
                     }
                     else{
                         this.indices.push(i*this.slices+j, (i+1)*this.slices+(j+2), (i+1)*this.slices+j);
-                        this.indices.push()
+                        this.indices.push(i*this.slices+j, i*this.slices+(j+1), (i+1)*this.slices+(j+2));
                     }
                 }
                 else if(i = this.stacks-1){

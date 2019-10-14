@@ -33,11 +33,15 @@ class MyCylinder extends CGFobject {
 		var delta_radius;								// Radius variation in each stack
 		var normal_ang;									// Angle between cylinder's normal and XOY plane 
 		var delta = Math.abs(this.top-this.base);		// Difference between top and base radius
+		var delta_s = 1/this.slices;
+		var delta_t = 1/this.stacks;
 		
 		// Initial values
 		var radius = this.base;
 		var z = 0;
-		 
+		var s = 0;
+		var t = 0; 
+
 		if(this.top > this.base){
 			delta_radius = (delta_z * delta)/this.height;
 		}
@@ -50,38 +54,37 @@ class MyCylinder extends CGFobject {
 		normal_ang = Math.PI-(beta+Math.PI/2);
 		
 		for(var i = 0; i < this.stacks + 1; i++){
+			
+			s = 0
 
 			var ang_slice = 0;
 
-			for(var j = 0; j < this.slices; j++){
-
+			for(var j = 0; j < this.slices + 1; j++){
 				this.vertices.push(Math.cos(ang_slice)*radius,Math.sin(ang_slice)*radius,z);
-				
+			
 				this.normals.push(Math.cos(ang_slice),Math.sin(ang_slice),Math.sin(normal_ang));
 
+				this.texCoords.push(s,t);
+
 				ang_slice += delta_ang_slice;
+
+				s += delta_s;
 			}
 
 			radius += delta_radius;
 
 			z += delta_z;
+
+			t += delta_t;
 		}
 
 		for (var i = 0; i < this.stacks ; i++) {
 
 			for (var j = 0; j < this.slices ; j++) {
 
-				if (j == this.slices-1) {
-
-					this.indices.push(i*this.slices + j,(i+1)*this.slices + j,(i+1)*this.slices);
-
-					this.indices.push((i+1)*this.slices,i*this.slices,i*this.slices + j);
-				} else {
-
-					this.indices.push(i*this.slices+j+1,i*this.slices + j,(i+1)*this.slices+(j+1));
-					
-					this.indices.push((i+1)*this.slices+(j+1),i*this.slices + j,(i+1)*this.slices + j);
-				}
+				this.indices.push(i*(this.slices+1)+j+1,i*(this.slices+1)+j,(i+1)*(this.slices+1)+(j+1));
+				
+				this.indices.push((i+1)*(this.slices+1)+(j+1),i*(this.slices+1)+j,(i+1)*(this.slices+1)+j);
 			}
 		}
 		
