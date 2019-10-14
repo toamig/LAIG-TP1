@@ -47,9 +47,6 @@
     </materials>
 
     <transformations>
-        <transformation id="trans0">
-            <translate x="13" y="1" z="3" />
-        </transformation>
         <transformation id="trans1">
             <translate x="0" y="0" z="0.5" />
         </transformation>
@@ -89,7 +86,7 @@
             <cylinder base="0.5" top="0" height="1" slices="30" stacks="30" />
         </primitive>
         <primitive id="sphere">
-            <sphere radius="2" slices="30" stacks="30" />
+            <sphere radius="1" slices="30" stacks="30" />
         </primitive>
     </primitives>
 
@@ -109,14 +106,13 @@
                 <componentref id="tree4" />
                 <componentref id="floor" />
                 <componentref id="house" />
-                <componentref id="snowball" />
+                <componentref id="snowman" />
             </children>
         </component>
 
         <component id="snowball">
             <transformation>
-                <transformationref id="trans0" />
-                <scale x="0.5" y="0.5" z="0.5" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -124,6 +120,50 @@
             <texture id="snow" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="snowman_head">
+            <transformation>
+                <translate x="13" y="2" z="3" />
+                <scale x = "1.5" y = "1.5" z = "1.5" />
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="snow" length_s="1" length_t="1" />
+            <children>
+                <componentref id="snowball" />
+            </children>
+        </component>
+
+        <component id="snowman_body">
+            <transformation>
+                <translate x="13" y="0" z="3" />
+                <scale x = "1.5" y = "1.5" z = "1.5" />
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="snow" length_s="1" length_t="1" />
+            <children>
+                <componentref id="snowball" />
+            </children>
+        </component>
+
+        <component id="snowman">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="snow" length_s="1" length_t="1" />
+            <children>
+                <componentref id="snowman_head" />
+                <componentref id="snowman_body" />
             </children>
         </component>
 

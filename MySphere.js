@@ -18,79 +18,73 @@ class MySphere extends CGFobject {
 	}
 	
 	initBuffers() {
+        
+
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
         this.texCoords = [];
 
-        var delta_ang_slice = -(2*Math.PI)/this.slices;
+        var delta_ang_slice = (2*Math.PI)/this.slices;
         var delta_ang_stack = (Math.PI/2)/this.stacks;
         var ang_slice = 0;
         var ang_stack = 0;
         
-        for(var i = 0; i < this.stacks+1; i++){
+        for(var i = 0; i <= this.stacks; i++){
 
             ang_slice = 0;
             var stack_radius = this.radius * Math.cos(ang_stack);
 
-            for(var j = 0; j < this.slices; j++){
+            for(var j = 0; j <= this.slices; j++){
 
-                if(i = 0){
-                    this.vertices.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * math.sin(ang_stack));
-                    this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * math.sin(ang_stack));
-                }
-                else if(i = this.stacks){
-                    this.vertices.push(0, 0, this.radius);
-                    this.normals.push(0, 0, 1);
-                    this.vertices.push(0, 0, -this.radius);
-                    this.normals.push(0, 0, -1);
-                }
-                else{
-                    this.vertices.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * math.sin(ang_stack));
-                    this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * math.sin(ang_stack));
-                    this.vertices.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), -this.radius * math.sin(ang_stack));
-                    this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), -this.radius * math.sin(ang_stack));
-                }
+                this.vertices.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * Math.sin(ang_stack));
+
+                this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), this.radius * Math.sin(ang_stack));
+
+                this.texCoords.push(j/this.slices,0.5-(0.5*(i/this.stacks)));
 
                 ang_slice += delta_ang_slice;
             }
             ang_stack += delta_ang_stack;
         }
 
-        for(var i = 0; i < this.stacks; i++){
+        ang_stack = 0;
 
-            for(var j = 0; j < this.slices; j++){
+        for(var i = 0; i <= this.stacks; i++){
 
-                if(i = 0){
-                    if(j = this.slices-1){
-                        this.indices.push(i*this.slices+j, (i+1)*this.slices, (i+1)*this.slices+j);
-                        this.indices.push(i*this.slices+j, i*this.slices, (i+1)*this.slices);
-                    }
-                    else{
-                        this.indices.push(i*this.slices+j, (i+1)*this.slices+(j+2), (i+1)*this.slices+j);
-                        this.indices.push(i*this.slices+j, i*this.slices+(j+1), (i+1)*this.slices+(j+2));
-                    }
-                }
-                else if(i = this.stacks-1){
-                    if(j = this.slices-1){
+            ang_slice = 0;
+            var stack_radius = this.radius * Math.cos(ang_stack);
 
-                    }
-                    else{
+            for(var j = 0; j <= this.slices; j++){
 
-                    }
-                }
-                else{
-                    if(j = this.slices-1){
+                this.vertices.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), -this.radius * Math.sin(ang_stack));
 
-                    }
-                    else{
+                this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), -this.radius * Math.sin(ang_stack));
 
-                    }
-                }
+                this.texCoords.push(j/this.slices,0.5+(0.5*(i/this.stacks)));
+
+                ang_slice += delta_ang_slice;
             }
+            ang_stack += delta_ang_stack;
         }
 
+        for(var i = 0; i < (this.stacks*2)+1; i++){
 
+            for(var j = 0; j < this.slices; j++){
+                if(i < this.stacks){
+                    this.indices.push(i*(this.slices+1)+j, (i+1)*(this.slices+1)+(j+1), (i+1)*(this.slices+1)+j);
+
+                    this.indices.push(i*(this.slices+1)+j, i*(this.slices+1)+(j+1), (i+1)*(this.slices+1)+(j+1));
+                }
+                else if(i > this.stacks){
+                    this.indices.push(i*(this.slices+1)+j, (i+1)*(this.slices+1)+j, (i+1)*(this.slices+1)+(j+1));
+
+                    this.indices.push(i*(this.slices+1)+j, (i+1)*(this.slices+1)+(j+1), i*(this.slices+1)+(j+1));
+                }
+                
+            }
+        }
+        console.log(this.vertices);
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
