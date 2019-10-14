@@ -26,48 +26,46 @@ class MyTorus extends CGFobject {
 		this.normals = [];
 		this.texCoords = [];
 
-		let varAngleSlices = -2*Math.PI/this.slices;
-		let varAngleLoops = 2*Math.PI/this.loops;
-		let z = 0;
+		for (var i = 0; i <= this.slices; i++) {
 
-		for(let i = 0; i <= this.slices; i++) {
+			var angInt = i * 2 * Math.PI / this.slices;
+			var cosAngInt = Math.cos(angInt);
+			var sinAngInt = Math.sin(angInt);
 
-			for(let j = 0; j <= this.loops; j++) {
-				
-				let px = Math.cos(varAngleSlices*i) * (this.outer + this.inner*Math.cos(varAngleLoops*j));
-				let py = Math.sin(varAngleSlices*i) * (this.outer + this.inner*Math.cos(varAngleLoops*j)); 
-				let pz = Math.sin(varAngleLoops*j) * this.inner;
-				
-				this.vertices.push(px, py, pz);
+			for (var j = 0; j <= this.loops; j++) {
 
-				this.normals.push(
-					Math.cos(varAngleLoops*j) * Math.cos(varAngleSlices*i), 
-                    Math.cos(varAngleLoops*j) * Math.sin(varAngleSlices*i),
-                    z
-				);
+				var angExt = j * 2 * Math.PI / this.loops;
+				var cosAngExt = Math.cos(angExt);
+				var sinAngExt = Math.sin(angExt);
 
-				this.texCoords.push(1 - (i / this.slices), 1 - (j / this.loops));
+                var r = (this.outer - this.inner) / 2;
+                var R = this.inner + r;
 
-			}
+				var x = (R + r * cosAngInt) * cosAngExt;
+				var y = (R + r * cosAngInt) * sinAngExt;
+                var z = r * sinAngInt;
+                
+				var s = 1 - (i / this.slices);
+				var t = 1 - (j / this.loops);
 
-		}
-
-		for (let i = 1; i <= this.slices; i++) {
-
-			for (let j = 1; j <= this.loops; j++) {
-	
-				let i1 = (this.loops + 1) * j + i - 1;
-				let i2 = (this.loops + 1) * (j - 1) + i - 1;
-				let i3 = (this.loops + 1) * (j - 1) + i;
-				let i4 = (this.loops + 1) * j + i;
-	
-				this.indices.push(i1, i2, i4);
-				this.indices.push(i2, i3, i4);
+				this.vertices.push(x, y, z);
+				this.normals.push(x, y, z);
+				this.texCoords.push(s, t);
 			}
 		}
 
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
+		for (var i = 0; i < this.slices; i++) {
+			for (var j = 0; j < this.loops; j++) {
+
+				var first = (i * (this.loops + 1)) + j;
+				var second = first + this.loops + 1;
+
+				this.indices.push(first, second + 1, second);
+				this.indices.push(first, first + 1, second + 1);
+			}
+        }
+        this.primitiveType = this.scene.gl.TRIANGLES;
+ 	    this.initGLBuffers();
 	}
 	
 	/**
