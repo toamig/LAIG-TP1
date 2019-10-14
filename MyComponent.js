@@ -12,9 +12,43 @@ class MyComponent{
         this.materials = global[1];
         this.texture = global[2];
         this.children = global[3];
+
+        MyComponent.actualTex;
+        MyComponent.atualMat;        
     }
 
+    
+
     display(){
+
+        if(Array.isArray(this.materials)){
+            MyComponent.atualMat = this.graph.materials[this.materials[0]];
+            this.graph.materials[this.materials[0]].apply(); 
+        }
+        else{
+            MyComponent.atualMat = this.graph.materials[this.materials];
+            this.graph.materials[this.materials].apply(); 
+        }
+            
+        if(Array.isArray(this.texture)){
+            MyComponent.actualTex = this.graph.textures[this.texture[0]];
+            this.graph.textures[this.texture[0]].bind();
+        }
+        else{
+            switch(this.texture){
+                case 'none':
+                    if(MyComponent.actualTex != null){
+                        MyComponent.actualTex.unbind();
+                        MyComponent.actualTex = null;
+                    }
+                    break;
+                case 'inherit':
+                    MyComponent.actualTex.bind();
+                    break;
+                default: 
+                    break;
+            }
+        }
 
         this.graph.scene.pushMatrix();
         for(var key in this.transformations){

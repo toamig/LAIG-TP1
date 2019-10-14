@@ -534,7 +534,7 @@ class MySceneGraph {
                 return "no ID defined for texture";
 
             // Get file url        
-            var file_url = this.reader.getString(children[i], 'id');
+            var file_url = this.reader.getString(children[i], 'file');
             if (file_url == null)
                 this.onXMLMinorError("no file defined for texture");
 
@@ -542,7 +542,7 @@ class MySceneGraph {
             if (this.textures[texId] != null)
             return "ID must be unique for each texture (conflict: ID = " + texID + ")"; 
 
-            this.textures[texId] = file_url;
+            this.textures[texId] = new CGFtexture(this.scene, file_url);
             numTextures++;
         }
 
@@ -595,9 +595,6 @@ class MySceneGraph {
             if (!(shininess != null && !isNaN(shininess)))
                 this.onXMLMinorError("unable to parse value component of the 'shininess' field for ID = " + materialId);
 
-            //Add shininess to light info
-            global.push(shininess);
-
             grandChildren = children[i].children;
             // Specifications for the current material.
 
@@ -616,13 +613,20 @@ class MySceneGraph {
                         return aux;
 
                     global.push(aux);
+                    console.log(aux);
                 }
                 else
                     return "material " + attributeNames[i] + " undefined for ID = " + materialId;
  
             }
+            var mat = new CGFappearance(this.scene);
+            mat.setEmission(global[0][0], global[0][1], global[0][2], global[0][3]);
+            mat.setAmbient(global[1][0], global[1][1], global[1][2], global[1][3]);
+            mat.setDiffuse(global[2][0], global[2][1], global[2][2], global[2][3]);
+            mat.setSpecular(global[3][0], global[3][1], global[3][2], global[3][3]);
+            mat.setShininess(shininess);
 
-            this.materials[materialId] = global;
+            this.materials[materialId] = mat;
             numMaterials++;
         }
 
@@ -1001,8 +1005,6 @@ class MySceneGraph {
         for(var key in this.primitives){
             this.nodes[key] = this.primitives[key];
         }
-
-        console.log(this.components);
 
         this.log("Parsed components");
         return null;
