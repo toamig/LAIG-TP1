@@ -63,10 +63,23 @@ class MyTriangle extends CGFobject {
         t
         */
 
-	   this.texCoords = [
-        1, 1,
-        0.5, 0,
-        0, 1,
+		//Distances
+		var a = Math.sqrt(Math.pow(this.x2-this.x1,2) + Math.pow(this.y2-this.y1,2) + Math.pow(this.z2-this.z1,2));
+		var b = Math.sqrt(Math.pow(this.x3-this.x2,2) + Math.pow(this.y3-this.y2,2) + Math.pow(this.z3-this.z2,2));
+		var c = Math.sqrt(Math.pow(this.x2-this.x1,2) + Math.pow(this.y2-this.y1,2) + Math.pow(this.z2-this.z1,2));
+
+		//Internal angles
+		var cosAlpha = (Math.pow(a,2) - Math.pow(b,2) + Math.pow(c,2)) / (2*a*c);
+		var sinAlpha = Math.sqrt(1-Math.pow(cosAlpha,2));
+		//var cosBeta = (Math.pow(a,2) + Math.pow(b,2) - Math.pow(c,2)) / (2*a*b);
+		//var cosGamma = (-Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2)) / (2*b*c);
+
+
+
+       this.texCoords = [
+        0, 0,
+        1/a, 0,
+        1/(c*cosAlpha), 1/(c*sinAlpha),
         ]
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
