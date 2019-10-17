@@ -7,7 +7,7 @@
             <to x="0" y="-2" z="0" />
         </perspective>
         <perspective id="newCamera" near="0.1" far="500" angle="30">
-            <from x="60" y="15" z="60" />
+            <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
         <ortho id="orthoCamera" near="1" far="50" left="-3" right="3" top="3" bottom="-3">
@@ -48,6 +48,7 @@
         <texture id="carrot" file="../scenes/images/carrot.jpg"/>
         <texture id="roof" file="../scenes/images/roof.jpg"/>
         <texture id="black" file="../scenes/images/black.jpg"/>
+        <texture id="fire" file="../scenes/images/fire.jpg" />
     </textures>
 
     <materials>
@@ -82,6 +83,11 @@
         <transformation id="trans6">
             <translate x="-0.5" y="0" z="0" />
             <rotate axis="y" angle="-90" />
+        </transformation>
+        <transformation id="stick">
+            <translate x="0" y="1.4" z="0.2" />
+            <rotate axis="x" angle="55"/>
+            <scale x="0.15" y="0.15" z="1.7" />
         </transformation>
     </transformations>
     
@@ -122,6 +128,7 @@
                 <componentref id="tree2" />
                 <componentref id="tree3" />
                 <componentref id="tree4" />
+                <componentref id="campfire" />
                 <componentref id="floor" />
             </children>
         </component>
@@ -563,6 +570,136 @@
             <children>
                 <componentref id="trunk" />
                 <componentref id="tree_top" />
+            </children>
+        </component>
+
+        <component id="campfire">
+            <transformation>
+                <translate x="25" y="0" z="25" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="firewood" />
+                <componentref id="fire" />
+            </children>
+        </component>
+
+        <component id = "firewood">
+            <transformation>
+                <scale x="0.8" y="0.8" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="stick" length_s="1" length_t="1" />
+            <children>
+                <componentref id="stick1" />
+                <componentref id="stick2" />
+                <componentref id="stick3" />
+                <componentref id="stick4" />
+                <componentref id="stick5" />
+                <componentref id="stick6" />
+            </children>
+        </component>
+
+        <component id = "stick1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "stick2">
+            <transformation>
+                <rotate axis="y" angle="60"/>
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "stick3">
+            <transformation>
+                <rotate axis="y" angle="120"/>
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "stick4">
+            <transformation>
+                <rotate axis="y" angle="180"/> 
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "stick5">
+            <transformation>
+                <rotate axis="y" angle="240"/>
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "stick6">
+            <transformation>
+                <rotate axis="y" angle="300"/>
+                <transformationref id="stick" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id = "fire">
+            <transformation>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.8" y="0.8" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="fire" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="cone" />
             </children>
         </component>
 

@@ -115,6 +115,7 @@ class XMLscene extends CGFscene {
         this.initLights();
 
         this.interface.addViewController(this.graph.views);
+        this.updateView();
 
         this.interface.addLightController(this.graph.lights);
 

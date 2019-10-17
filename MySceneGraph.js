@@ -267,7 +267,7 @@ class MySceneGraph {
                 if (!(angle != null && !isNaN(angle)))
                     return "unable to parse angle of the view for ID = " + viewId;
 
-                global.push(angle);
+                global.push(DEGREE_TO_RAD*angle);
             }
             else{
                 var leftVal = this.reader.getFloat(children[i], 'left');

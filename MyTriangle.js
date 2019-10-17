@@ -71,8 +71,6 @@ class MyTriangle extends CGFobject {
 		//Internal angles
 		var cosAlpha = (Math.pow(c,2)-Math.pow(b,2)+Math.pow(a,2))/(2*c*a);
 		var sinAlpha = Math.sqrt(1-Math.pow(cosAlpha,2));
-		//var cosBeta = (Math.pow(a,2) + Math.pow(b,2) - Math.pow(c,2)) / (2*a*b);
-		//var cosGamma = (-Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2)) / (2*b*c);
 
 
 
