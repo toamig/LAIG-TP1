@@ -262,17 +262,6 @@ class MySceneGraph {
             if (this.views[viewId] != null)
                 return "ID must be unique for each view (conflict: ID = " + viewId + ")";
 
-            //Get view variables
-            var nearVal = this.reader.getFloat(children[i], 'near'); 
-            if (nearVal == null)
-                return "no near value defined for view";
-
-            var farVal = this.reader.getFloat(children[i], 'far'); 
-            if (farVal == null)
-                return "no far value defined for view";
-
-            global.push(...[nearVal, farVal]);
-
             if (children[i].nodeName == "perspective"){
                 var angle = this.reader.getFloat(children[i], 'angle');
                 if (!(angle != null && !isNaN(angle)))
@@ -297,8 +286,20 @@ class MySceneGraph {
                 if (!(bottomVal != null && !isNaN(bottomVal)))
                     return "unable to parse bottom value of the view for ID = " + viewId;
 
-                global.push(...[leftVal, rightVal, topVal, bottomVal]);
-            }          
+                global.push(...[leftVal, rightVal, bottomVal, topVal]);
+            
+            }
+
+            //Get view variables
+            var nearVal = this.reader.getFloat(children[i], 'near'); 
+            if (nearVal == null)
+                return "no near value defined for view";
+
+            var farVal = this.reader.getFloat(children[i], 'far'); 
+            if (farVal == null)
+                return "no far value defined for view";
+
+            global.push(...[nearVal, farVal]);          
 
             grandChildren = children[i].children;
             // Specifications for the current view.
@@ -329,23 +330,28 @@ class MySceneGraph {
                 var upIndex = nodeNames.indexOf("up");
 
                 // Retrieves the up coordinates.
-                var upCoord = [];
-                if (targetIndex != -1) {
+                if (upIndex == 2) {
                     var aux = this.parseCoordinates3D(grandChildren[upIndex], "up coordinates for ID " + viewId);
 
                     if (!Array.isArray(aux))
                         return aux;
-
-                    upCoord = aux;
                 }
-                else
-                    var aux = []
-                    aux.push(...[0, 1, 0]);
+                else{
+                    var aux = [0,1,0];
+                }
 
-                global.push(upCoord);
+                global.push(aux);
+            }
+            
+            if (children[i].nodeName == "perspective"){
+                var cam = new CGFcamera(global[0], global[1], global[2], global[3], global[4]);
+                this.views[viewId] = cam;
+            }
+            else{
+                var cam = new CGFcameraOrtho(global[0], global[1], global[2], global[3], global[4], global[5], global[6], global[7], global[8]);
+                this.views[viewId] = cam;
             }
 
-            this.views[viewId] = global;
             numViews++;
         }
 
@@ -354,6 +360,7 @@ class MySceneGraph {
 
         this.log("Parsed views");
         return null;
+
     }
 
     /**
@@ -438,7 +445,7 @@ class MySceneGraph {
             if (!(aux != null && !isNaN(aux) && (aux == true || aux == false)))
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
 
-            enableLight = aux || 1;
+            enableLight = aux;
 
             //Add enabled boolean and type name to light info
             global.push(enableLight);

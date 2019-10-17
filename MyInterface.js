@@ -15,14 +15,15 @@ class MyInterface extends CGFinterface {
      */
     init(application) {
         super.init(application);
+
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui
-
         this.gui = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
+        
 
         return true;
     }
@@ -30,6 +31,26 @@ class MyInterface extends CGFinterface {
     /**
      * initKeys
      */
+
+
+    addViewController(views){
+
+        var viewIds = Object.keys(views);
+        this.gui.add(this.scene, 'activeCamera', viewIds).name('Camera').onChange(this.scene.updateView.bind(this.scene));
+    }
+
+    addLightController(lights){
+        var lightsGroup = this.gui.addFolder('Lights');
+        lightsGroup.open();
+        
+        for (var key in lights) {
+            if (lights.hasOwnProperty(key)) {
+                this.scene.lightsOn[key] = lights[key][0];
+                lightsGroup.add(this.scene.lightsOn, key);
+            }
+        }
+    }
+
     initKeys() {
         this.scene.gui=this;
         this.processKeyboard=function(){};

@@ -12,6 +12,8 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.lightsOn = [];
+        this.keyToLight = [];
     }
 
     /**
@@ -34,8 +36,19 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        //Variables connected to MyInterface
+        this.activeCamera = 'defaultCamera';
+        
     }
 
+    /**
+     * Called by interface to update the camera.
+     */
+    updateView(){
+        this.camera = this.graph.views[this.activeCamera];
+        this.interface.setActiveCamera(this.camera)
+    }
     /**
      * Initializes the scene cameras.
      */
@@ -76,6 +89,8 @@ class XMLscene extends CGFscene {
 
                 this.lights[i].update();
 
+                this.keyToLight[key] = i;
+
                 i++;
             }
         }
@@ -99,7 +114,13 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.interface.addViewController(this.graph.views);
+
+        this.interface.addLightController(this.graph.lights);
+
         this.sceneInited = true;
+
+        
     }
 
     /**
@@ -122,10 +143,20 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
+        for (var key in this.lightsOn) {
+            var i = this.keyToLight[key];
+            if(this.lightsOn[key]){
+                this.lights[i].setVisible(true);
+                this.lights[i].enable();
+            }
+            else{
+                this.lights[i].setVisible(false);
+                this.lights[i].disable();
+            }
+            this.lights[i].update();
         }
+
+        console.log(this.keyToLight);
 
         if (this.sceneInited) {
             // Draw axis

@@ -1,11 +1,20 @@
 <lxs>
-    <scene root="root" axis_length="5.0"/>
+    <scene root="root" axis_length="15.0"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <perspective id="newCamera" near="0.1" far="500" angle="30">
+            <from x="60" y="15" z="60" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <ortho id="orthoCamera" near="1" far="50" left="-3" right="3" top="3" bottom="-3">
+            <from x="5" y="5" z="5"/>
+            <to x="0" y="0" z="0"/>
+            <up x="0" y="1" z="0"/>
+        </ortho>
     </views>
 
     <globals>
@@ -31,7 +40,7 @@
     <textures>
         <texture id="trunk" file="../scenes/images/birchWood.png" />
         <texture id="snow" file="../scenes/images/snow.png" />
-        <texture id="leaves" file="../scenes/images/snowleaves.jpg"/>
+        <texture id="leaves" file="../scenes/images/leaves.jpg"/>
         <texture id="housefront" file="../scenes/images/houseFront.png"/>
         <texture id="houseside" file="../scenes/images/houseSide.png"/>
         <texture id="houseback" file="../scenes/images/houseBack.png"/>
@@ -119,7 +128,7 @@
 
         <component id="snowball">
             <transformation>
-                <translate x="0" y="0" z="0" />
+                <rotate axis="y" angle="0" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -133,7 +142,8 @@
         <component id="snowman">
             <transformation>
                 <translate x="20" y="0" z="5" />
-                <rotate axis="y" angle="-30" />
+                <rotate axis="y" angle="-50" />
+                <scale x="1.2" y="1.2" z="1.2" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -207,7 +217,7 @@
         <component id="snowman_nose">
             <transformation>
                 <translate x="1" y="0" z="0" />
-                <scale x = "0.5" y = "0.3" z = "0.3" />
+                <scale x = "0.6" y = "0.3" z = "0.3" />
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
@@ -251,7 +261,7 @@
             <transformation>
                 <translate x="0" y="0.2" z="0.9" />
                 <rotate axis="x" angle="25" />
-                <scale x = "0.1" y = "0.1" z = "1.5" />
+                <scale x = "0.1" y = "0.1" z = "1" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -266,7 +276,7 @@
             <transformation>
                 <translate x="0" y="0.2" z="-0.9" />
                 <rotate axis="x" angle="-25" />
-                <scale x = "0.1" y = "0.1" z = "1.5" />
+                <scale x = "0.1" y = "0.1" z = "1" />
                 <rotate axis="y" angle="180" />
             </transformation>
             <materials>
