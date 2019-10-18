@@ -62,10 +62,16 @@ class MyInterface extends CGFinterface {
     };
 
     processKeyUp(event) {
+        if(event.code == "KeyM"){
+            this.scene.graph.currentMaterial++;
+            console.log("m");
+        }
         this.activeKeys[event.code]=false;
     };
 
     isKeyPressed(keyCode) {
         return this.activeKeys[keyCode] || false;
     }
+
+    
 }

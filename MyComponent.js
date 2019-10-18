@@ -14,22 +14,23 @@ class MyComponent{
         this.children = global[3];
 
         MyComponent.actualTex;
-        MyComponent.atualMat;        
+        MyComponent.actualMat;        
     }
 
     
 
     display(){
-
         if(Array.isArray(this.materials)){
-            MyComponent.atualMat = this.graph.materials[this.materials[0]];
-            this.graph.materials[this.materials[0]].apply(); 
-        }
-        else{
-            MyComponent.atualMat = this.graph.materials[this.materials];
-            this.graph.materials[this.materials].apply(); 
-        }
-            
+            switch(this.materials[this.graph.currentMaterial%this.materials.length]){
+                case 'inherit':
+                    MyComponent.actualMat.apply();
+                    break;
+                default:
+                    MyComponent.actualMat = this.materials[this.graph.currentMaterial%this.materials.length]
+                    this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]].apply();  
+                    break;
+            }
+        }            
         if(Array.isArray(this.texture)){
             MyComponent.actualTex = this.graph.textures[this.texture[0]];
             this.graph.textures[this.texture[0]].bind();

@@ -30,6 +30,7 @@ class MySceneGraph {
         this.idRoot = this.idRoot || null;                       // The id of the root element.
         this.referenceLength = this.referenceLength || null;     // Default axis length.
         this.defaultCamera = this.defaultCamera || null;         // The id of the default camera.
+        this.currentMaterial = 0;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];

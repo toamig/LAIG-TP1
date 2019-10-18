@@ -19,12 +19,12 @@
 
     <globals>
         <ambient r="0.5" g="0.5" b="0.5" a="1" />
-        <background r="0.6" g="0.8" b="0.9" a="1" />
+        <background r="0.8" g="0.9" b="1" a="1" />
     </globals>
 
     <lights>
         <omni id="day" enabled="1">
-            <location x="29" y="22" z="0" w="1" />
+            <location x="25" y="30" z="25" w="1" />
             <ambient r="0.9" g="0.8" b="0.5" a="1" />
             <diffuse r="0.9" g="0.8" b="0.5" a="1" />
             <specular r="0.9" g="0.8" b="0.5" a="1" />
@@ -57,6 +57,18 @@
             <ambient r="0.3" g="0.3" b="0.3" a="1" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1" />
             <specular r="0.2" g="0.2" b="0.2" a="1" />
+        </material>
+        <material id="specularMaterial" shininess = "100">
+            <emission r="0.3" g="0.3" b="0.3" a="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </material>
+        <material id="diffuseMaterial" shininess = "100">
+            <emission r="0.3" g="0.3" b="0.3" a="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
         </material>
     </materials>
 
@@ -108,7 +120,7 @@
             <sphere radius="1" slices="30" stacks="30" />
         </primitive>
         <primitive id="triangle">
-            <triangle x1="0.5" y1="0" z1="0" x2="0" y2="1" z2="0" x3="-0.5" y3="0" z3="0" />
+            <triangle x1="0.5" y1="0" z1="0" x2="-0.5" y2="0" z2="0" x3="0" y3="1" z3="0" />
         </primitive>
     </primitives>
 
@@ -428,6 +440,7 @@
             <transformation>
                 <translate x="0" y="0" z="0.5" />
                 <rotate axis="x" angle="-30" />
+                <rotate axis="y" angle="180" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -442,7 +455,6 @@
             <transformation>
                 <translate x="0" y="0" z="-0.5" />
                 <rotate axis="x" angle="30" />
-                <rotate axis="y" angle="180" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -457,7 +469,7 @@
             <transformation>
                 <translate x="0.5" y="0" z="0" />
                 <rotate axis="z" angle="30" />
-                <rotate axis="y" angle="90" />
+                <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -472,7 +484,7 @@
             <transformation>
                 <translate x="-0.5" y="0" z="0" />
                 <rotate axis="z" angle="-30" />
-                <rotate axis="y" angle="-90" />
+                <rotate axis="y" angle="90" />
             </transformation>
             <materials>
                 <material id="snow" />
@@ -505,7 +517,8 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
+                <material id="specularMaterial" />
             </materials>
             <texture id="leaves" length_s="1" length_t="1" />
             <children>

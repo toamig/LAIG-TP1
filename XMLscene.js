@@ -157,8 +157,6 @@ class XMLscene extends CGFscene {
             this.lights[i].update();
         }
 
-        console.log(this.keyToLight);
-
         if (this.sceneInited) {
             // Draw axis
             this.setDefaultAppearance();
