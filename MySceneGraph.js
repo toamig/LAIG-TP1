@@ -502,8 +502,40 @@ class MySceneGraph {
                 else
                     return "light target undefined for ID = " + lightId;
 
-                global.push(...[angle, exponent, targetLight])
+                global.push(...[angle, exponent, targetLight]);
             }
+
+            // Gets the light attenuation
+            for (var j = 0; j < grandChildren.length; j++) {
+
+                if (grandChildren[j].nodeName == "attenuation") {
+                    var constant = this.reader.getFloat(grandChildren[j], 'constant');
+                    if (!(constant != null && !isNaN(constant)))
+                        return "unable to parse constant attenuation of the light for ID = " + lightId;
+    
+                    if(constant != 0){
+                        global.push('constant', constant);
+                    }
+    
+                    var linear = this.reader.getFloat(grandChildren[j], 'linear');
+                    if (!(linear != null && !isNaN(linear)))
+                        return "unable to parse linear attenuation of the light for ID = " + lightId;
+    
+                    if(linear != 0){
+                        global.push('linear', linear);
+                    }
+    
+                    var quadratic = this.reader.getFloat(grandChildren[j], 'quadratic');
+                    if (!(quadratic != null && !isNaN(quadratic)))
+                        return "unable to parse quadratic attenuation of the light for ID = " + lightId;
+    
+                    if(quadratic != 0){
+                        global.push('quadratic', quadratic);
+                    }
+                }
+            }            
+
+            console.log(global);
 
             this.lights[lightId] = global;
             numLights++;

@@ -6,14 +6,13 @@
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
-        <perspective id="newCamera" near="0.1" far="500" angle="30">
-            <from x="30" y="15" z="30" />
-            <to x="0" y="-2" z="0" />
+        <perspective id="houseCamera" near="0.1" far="500" angle="30">
+            <from x="50" y="10" z="16" />
+            <to x="0" y="2" z="16" />
         </perspective>
-        <ortho id="orthoCamera" near="1" far="50" left="-3" right="3" top="3" bottom="-3">
-            <from x="5" y="5" z="5"/>
-            <to x="0" y="0" z="0"/>
-            <up x="0" y="1" z="0"/>
+        <ortho id="snowmanCamera" near="1" far="50" left="-4" right="4" top="3" bottom="-3">
+            <from x="45" y="0" z="22"/>
+            <to x="21" y="4" z="6"/>
         </ortho>
     </views>
 
@@ -28,19 +27,28 @@
             <ambient r="0.9" g="0.8" b="0.5" a="1" />
             <diffuse r="0.9" g="0.8" b="0.5" a="1" />
             <specular r="0.9" g="0.8" b="0.5" a="1" />
+            <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
         <omni id="night" enabled="0">
             <location x="29" y="29" z="-29" w="1" />
             <ambient r="0.1" g="0.35" b="0.65" a="0.2" />
             <diffuse r="0.1" g="0.35" b="0.65" a="0.2" />
             <specular r="0.1" g="0.35" b="0.65" a="0.2" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+        <omni id="fire" enabled="0">
+            <location x="25" y="0" z="25" w="1" />
+            <ambient r="0.9" g="0.6" b="0.1" a="1" />
+            <diffuse r="0.9" g="0.6" b="0.1" a="1" />
+            <specular r="0.9" g="0.6" b="0.1" a="1" />
+            <attenuation constant="0" linear="0.3" quadratic="0" />
         </omni>
     </lights>
 
     <textures>
         <texture id="trunk" file="../scenes/images/birchWood.png" />
         <texture id="snow" file="../scenes/images/snow.png" />
-        <texture id="leaves" file="../scenes/images/leaves.jpg"/>
+        <texture id="leaves" file="../scenes/images/snowleaves.jpg"/>
         <texture id="housefront" file="../scenes/images/houseFront.png"/>
         <texture id="houseside" file="../scenes/images/houseSide.png"/>
         <texture id="houseback" file="../scenes/images/houseBack.png"/>
@@ -503,7 +511,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="trunk" length_s="1" length_t="1" />
             <children>
@@ -518,8 +526,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="diffuseMaterial" />
-                <material id="specularMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="leaves" length_s="1" length_t="1" />
             <children>
@@ -533,7 +540,8 @@
                 <rotate axis="y" angle="-30"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
+                <material id="specularMaterial" />
             </materials>
             <texture id="none" />
             <children>

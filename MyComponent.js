@@ -25,7 +25,26 @@ class MyComponent{
         
         switch(this.materials[this.graph.currentMaterial%this.materials.length]){
             case 'inherit':
-                MyComponent.actualMat.apply();
+                if(Array.isArray(this.texture)){
+                    MyComponent.actualTex = this.graph.textures[this.texture[0]];
+                    MyComponent.length_s = this.texture[1];
+                    MyComponent.length_t = this.texture[2];
+                    MyComponent.actualMat.setTexture(MyComponent.actualTex);
+                    
+                }
+                else{
+                    switch(this.texture){
+                        case 'none':
+                            MyComponent.actualMat.setTexture(null);
+                            break;
+                        case 'inherit':
+                            MyComponent.actualMat.setTexture(MyComponent.actualTex);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                MyComponent.actualMat.apply();  
                 break;
             default:
                 MyComponent.actualMat = this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]];

@@ -81,6 +81,18 @@ class XMLscene extends CGFscene {
                     this.lights[i].setSpotDirection(light[8][0], light[8][1], light[8][2]);
                 }
 
+                switch (light[6]){
+                    case "constant": 
+                        this.lights[i].setConstantAttenuation(light[7]);
+                        break;
+                    case "linear": 
+                        this.lights[i].setLinearAttenuation(light[7]);
+                        break;
+                    case "quadratic": 
+                        this.lights[i].setQuadraticAttenuation(light[7]);
+                        break;
+                }
+
                 this.lights[i].setVisible(true);
                 if (light[0])
                     this.lights[i].enable();
