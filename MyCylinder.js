@@ -18,6 +18,8 @@ class MyCylinder extends CGFobject {
 		this.height = height;
 		this.slices = slices;
 		this.stacks = stacks;
+		this.length_s = 1;
+		this.length_t = 1;
 
 		this.initBuffers();
 	}
@@ -90,6 +92,12 @@ class MyCylinder extends CGFobject {
 		
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+	}
+
+	changeCoords(s, t){
+		this.length_s = s;
+		this.length_t = t;
+		this.updateTexCoords(this.texCoords);
 	}
 
 	/**

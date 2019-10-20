@@ -14,50 +14,59 @@ class MyComponent{
         this.children = global[3];
 
         MyComponent.actualTex;
+        MyComponent.length_s;
+        MyComponent.length_t;
         MyComponent.actualMat;        
     }
 
     
 
     display(){
-        if(Array.isArray(this.materials)){
-            switch(this.materials[this.graph.currentMaterial%this.materials.length]){
-                case 'inherit':
-                    MyComponent.actualMat.apply();
-                    break;
-                default:
-                    MyComponent.actualMat = this.materials[this.graph.currentMaterial%this.materials.length]
-                    this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]].apply();  
-                    break;
-            }
-        }            
-        if(Array.isArray(this.texture)){
-            MyComponent.actualTex = this.graph.textures[this.texture[0]];
-            this.graph.textures[this.texture[0]].bind();
-        }
-        else{
-            switch(this.texture){
-                case 'none':
-                    if(MyComponent.actualTex != null){
-                        MyComponent.actualTex.unbind();
-                        MyComponent.actualTex = null;
+        
+        switch(this.materials[this.graph.currentMaterial%this.materials.length]){
+            case 'inherit':
+                MyComponent.actualMat.apply();
+                break;
+            default:
+                MyComponent.actualMat = this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]];
+                MyComponent.actualMat.setTextureWrap('REPEAT', 'REPEAT');
+                if(Array.isArray(this.texture)){
+                    MyComponent.actualTex = this.graph.textures[this.texture[0]];
+                    MyComponent.length_s = this.texture[1];
+                    MyComponent.length_t = this.texture[2];
+                    MyComponent.actualMat.setTexture(MyComponent.actualTex);
+                    
+                }
+                else{
+                    switch(this.texture){
+                        case 'none':
+                            MyComponent.actualMat.setTexture(null);
+                            break;
+                        case 'inherit':
+                            MyComponent.actualMat.setTexture(MyComponent.actualTex);
+                            break;
+                        default:
+                            break;
                     }
-                    break;
-                case 'inherit':
-                    MyComponent.actualTex.bind();
-                    break;
-                default: 
-                    break;
-            }
-        }
+                }
+                this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]].apply();  
+                break;
+        }          
 
         this.graph.scene.pushMatrix();
         for(var key in this.transformations){
             this.graph.scene.multMatrix(this.transformations[key]);
         }
         for(var key in this.children) {
+            this.graph.nodes[this.children[key]].changeCoords(MyComponent.length_s, MyComponent.length_t);
             this.graph.nodes[this.children[key]].display();
         }
         this.graph.scene.popMatrix();
     }
+
+    changeCoords(s, t){
+        MyComponent.length_s = s;
+        MyComponent.length_t = t;
+    }
 }
+

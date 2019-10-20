@@ -23,7 +23,9 @@ class MyTriangle extends CGFobject {
         this.y3 = y3;
         this.z1 = z1;
         this.z2 = z2;
-        this.z3 = z3;
+		this.z3 = z3;
+		this.length_s = 1;
+		this.length_t = 1;
 
 		this.initBuffers();
 	}
@@ -64,25 +66,33 @@ class MyTriangle extends CGFobject {
         */
 
 		//Distances
-		var a = Math.sqrt(Math.pow(this.x2-this.x1,2) + Math.pow(this.y2-this.y1,2) + Math.pow(this.z2-this.z1,2));
-		var b = Math.sqrt(Math.pow(this.x3-this.x2,2) + Math.pow(this.y3-this.y2,2) + Math.pow(this.z3-this.z2,2));
-		var c = Math.sqrt(Math.pow(this.x3-this.x1,2) + Math.pow(this.y3-this.y1,2) + Math.pow(this.z3-this.z1,2));
+		this.a = Math.sqrt(Math.pow(this.x2-this.x1,2) + Math.pow(this.y2-this.y1,2) + Math.pow(this.z2-this.z1,2));
+		this.b = Math.sqrt(Math.pow(this.x3-this.x2,2) + Math.pow(this.y3-this.y2,2) + Math.pow(this.z3-this.z2,2));
+		this.c = Math.sqrt(Math.pow(this.x3-this.x1,2) + Math.pow(this.y3-this.y1,2) + Math.pow(this.z3-this.z1,2));
 
 		//Internal angles
-		var cosAlpha = (Math.pow(a,2)-Math.pow(b,2)+Math.pow(c,2))/(2*c*a);
-		var sinAlpha = Math.sqrt(1-Math.pow(cosAlpha,2));
+		this.cosAlpha = (Math.pow(this.a,2)-Math.pow(this.b,2)+Math.pow(this.c,2))/(2*this.c*this.a);
+		this.sinAlpha = Math.sqrt(1-Math.pow(this.cosAlpha,2));
 
 
 
         this.texCoords = [
 	 	0, 0,
-        a/1, 0,
-	 	((c*cosAlpha)/1), ((c*sinAlpha)/1),
+        this.a/this.length_s, 0,
+	 	((this.c*this.cosAlpha)/this.length_s), ((this.c*this.sinAlpha)/this.length_t)
 	    ]
 	
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+	}
+
+	changeCoords(s, t){
+		this.length_s = s;
+		this.length_t = t;
+		this.updateTexCoords([0, 0,
+			this.a/this.length_s, 0,
+			((this.c*this.cosAlpha)/this.length_s), ((this.c*this.sinAlpha)/this.length_t)]);
 	}
 
 	/**

@@ -13,6 +13,8 @@ class MySphere extends CGFobject {
 		this.radius = radius;
         this.slices = slices;
         this.stacks = stacks;
+        this.length_s = 1;
+		this.length_t = 1;
 
 		this.initBuffers();
 	}
@@ -61,7 +63,7 @@ class MySphere extends CGFobject {
 
                 this.normals.push(stack_radius * Math.cos(ang_slice), stack_radius * Math.sin(ang_slice), -this.radius * Math.sin(ang_stack));
 
-                this.texCoords.push(j/this.slices,0.5+(0.5*(i/this.stacks)));
+                this.texCoords.push(j/(this.slices),0.5+(0.5*(i/this.stacks)));
 
                 ang_slice += delta_ang_slice;
             }
@@ -87,6 +89,12 @@ class MySphere extends CGFobject {
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+	}
+
+	changeCoords(s, t){
+		this.length_s = s;
+        this.length_t = t;
+        this.updateTexCoords(this.texCoords);
 	}
 
 	/**

@@ -49,6 +49,7 @@
         <texture id="roof" file="../scenes/images/roof.jpg"/>
         <texture id="black" file="../scenes/images/black.jpg"/>
         <texture id="fire" file="../scenes/images/fire.jpg" />
+        <texture id="rock" file="../scenes/images/rock.jpg" />
     </textures>
 
     <materials>
@@ -107,9 +108,9 @@
         <primitive id="rectangle">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
-        <!--<primitive id="tor">
-            <torus inner="1" outer="3" slices="30" loops="30" />
-        </primitive>-->
+        <primitive id="torus">
+            <torus inner="1" outer="1.5" slices="30" loops="30" />
+        </primitive>
         <primitive id="cylinder">
             <cylinder base="1" top="1" height="1" slices="30" stacks="30" />
         </primitive>
@@ -597,6 +598,7 @@
             <children>
                 <componentref id="firewood" />
                 <componentref id="fire" />
+                <componentref id="firerock" />
             </children>
         </component>
 
@@ -716,6 +718,20 @@
             </children>
         </component>
 
+        <component id = "firerock">
+            <transformation>
+                <translate x="0" y="0.25" z="0" />
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="snow" />
+            </materials>
+            <texture id="rock" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
         <component id="floor">
             <transformation>
                 <rotate axis="x" angle="-90"/>
@@ -725,7 +741,7 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="snow" length_s="1" length_t="1" />
+            <texture id="snow" length_s="0.2" length_t="0.4" />
             <children>
                 <primitiveref id="rectangle" />
             </children>
