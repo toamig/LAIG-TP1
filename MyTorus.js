@@ -40,15 +40,15 @@ class MyTorus extends CGFobject {
 				var cosAngExt = Math.cos(angExt);
 				var sinAngExt = Math.sin(angExt);
 
-                var r = (this.outer - this.inner) / 2;
-                var R = this.inner + r;
+                var r = (this.inner - this.outer) / 2;
+                var R = this.outer + r;
 
 				var x = (R + r * cosAngInt) * cosAngExt;
 				var y = (R + r * cosAngInt) * sinAngExt;
                 var z = r * sinAngInt;
                 
-				var s = 1 - (i / this.slices);
-				var t = 1 - (j / this.loops);
+				var s = (i / this.slices);
+				var t = (j / this.loops);
 
 				this.vertices.push(x, y, z);
 				this.normals.push(x, y, z);
