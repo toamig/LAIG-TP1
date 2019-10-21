@@ -94,7 +94,18 @@ class MySphere extends CGFobject {
 	changeCoords(s, t){
 		this.length_s = s;
         this.length_t = t;
-        this.updateTexCoords(this.texCoords);
+        var newCoords= [];
+        for(var i = 0; i <= this.stacks; i++){
+            for(var j = 0; j <= this.slices; j++){
+                newCoords.push((j/this.slices)/this.length_s,(0.5-(0.5*(i/this.stacks)))/this.length_t);
+            }
+        }
+        for(var i = 0; i <= this.stacks; i++){
+            for(var j = 0; j <= this.slices; j++){
+                newCoords.push((j/(this.slices))/this.length_s,(0.5+(0.5*(i/this.stacks)))/this.length_t);
+            }
+        }
+        this.updateTexCoords(newCoords);
 	}
 
 	/**

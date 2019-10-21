@@ -35,8 +35,8 @@ class MyCylinder extends CGFobject {
 		var delta_radius;								// Radius variation in each stack
 		var normal_ang;									// Angle between cylinder's normal and XOY plane 
 		var delta = Math.abs(this.top-this.base);		// Difference between top and base radius
-		var delta_s = 1/this.slices;
-		var delta_t = 1/this.stacks;
+		this.delta_s = 1/this.slices;
+		this.delta_t = 1/this.stacks;
 		
 		// Initial values
 		var radius = this.base;
@@ -70,14 +70,14 @@ class MyCylinder extends CGFobject {
 
 				ang_slice += delta_ang_slice;
 
-				s += delta_s;
+				s += this.delta_s;
 			}
 
 			radius += delta_radius;
 
 			z += delta_z;
 
-			t += delta_t;
+			t += this.delta_t;
 		}
 
 		for (var i = 0; i < this.stacks ; i++) {
@@ -97,7 +97,17 @@ class MyCylinder extends CGFobject {
 	changeCoords(s, t){
 		this.length_s = s;
 		this.length_t = t;
-		this.updateTexCoords(this.texCoords);
+		var newCoords = []
+		var t = 0
+		for(var i = 0; i < this.stacks + 1; i++){
+			var s = 0
+			for(var j = 0; j < this.slices + 1; j++){
+				newCoords.push(s/this.length_s,t/this.length_t);
+				s += this.delta_s;
+			}
+			t += this.delta_t;
+		}
+		this.updateTexCoords(newCoords);
 	}
 
 	/**

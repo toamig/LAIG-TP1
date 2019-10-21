@@ -535,8 +535,6 @@ class MySceneGraph {
                 }
             }            
 
-            console.log(global);
-
             this.lights[lightId] = global;
             numLights++;
         }
@@ -983,6 +981,8 @@ class MySceneGraph {
             if (componentId == null)
                 return "no ID defined for componentId";
 
+            global.push(componentId);
+
             // Checks for repeated IDs.
             if (this.components[componentId] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentId + ")";
@@ -1136,6 +1136,8 @@ class MySceneGraph {
         }
 
         this.log("Parsed components");
+        window.components = this.components;
+        window.nodes = this.nodes;
         return null;
     }
 

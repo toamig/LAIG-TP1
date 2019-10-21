@@ -24,9 +24,9 @@
     <lights>
         <omni id="day" enabled="1">
             <location x="25" y="30" z="25" w="1" />
-            <ambient r="0.9" g="0.8" b="0.5" a="1" />
-            <diffuse r="0.9" g="0.8" b="0.5" a="1" />
-            <specular r="0.9" g="0.8" b="0.5" a="1" />
+            <ambient r="0.9" g="0.8" b="0.6" a="1" />
+            <diffuse r="0.9" g="0.8" b="0.6" a="1" />
+            <specular r="0.9" g="0.8" b="0.6" a="1" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
         <omni id="night" enabled="0">
@@ -55,27 +55,46 @@
         <texture id="stick" file="../scenes/images/bark.jpg"/>
         <texture id="carrot" file="../scenes/images/carrot.jpg"/>
         <texture id="roof" file="../scenes/images/roof.jpg"/>
+        <texture id="snowroof" file="../scenes/images/snowroof.jpg" />
         <texture id="black" file="../scenes/images/black.jpg"/>
         <texture id="fire" file="../scenes/images/fire.jpg" />
         <texture id="rock" file="../scenes/images/rock.jpg" />
     </textures>
 
     <materials>
+        <material id="none" shininess = "100">
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />
+        </material>
         <material id="snow" shininess = "100">
-            <emission r="0.3" g="0.3" b="0.3" a="1" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
             <specular r="0.2" g="0.2" b="0.2" a="1" />
         </material>
-        <material id="specularMaterial" shininess = "100">
-            <emission r="0.3" g="0.3" b="0.3" a="1" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+        <material id="fire" shininess = "100">
+            <emission r="0.9" g="0.6" b="0.1" a="1" />
+            <ambient r="0.9" g="0.6" b="0.1" a="1" />
+            <diffuse r="0.9" g="0.6" b="0.1" a="1" />
+            <specular r="0.9" g="0.6" b="0.1" a="1" />
+        </material>
+        <material id="tree" shininess = "100">
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <specular r="0.2" g="0.2" b="0.2" a="1" />
+        </material>
+        <material id="specularMaterial" shininess = "25">
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
             <diffuse r="0.3" g="0.3" b="0.3" a="1" />
             <specular r="0.9" g="0.9" b="0.9" a="1" />
         </material>
         <material id="diffuseMaterial" shininess = "100">
-            <emission r="0.3" g="0.3" b="0.3" a="1" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
             <diffuse r="0.9" g="0.9" b="0.9" a="1" />
             <specular r="0.3" g="0.3" b="0.3" a="1" />
         </material>
@@ -139,7 +158,7 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
             <texture id="none" />
             <children>
@@ -154,19 +173,6 @@
             </children>
         </component>
 
-        <component id="snowball">
-            <transformation>
-                <rotate axis="y" angle="0" />
-            </transformation>
-            <materials>
-                <material id="snow" />
-            </materials>
-            <texture id="snow" length_s="1" length_t="1" />
-            <children>
-                <primitiveref id="sphere" />
-            </children>
-        </component>
-
         <component id="snowman">
             <transformation>
                 <translate x="20" y="0" z="5" />
@@ -174,7 +180,7 @@
                 <scale x="1.2" y="1.2" z="1.2" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
             <texture id="none" />
             <children>
@@ -190,7 +196,7 @@
                 <scale x = "0.7" y = "0.7" z = "0.7" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
             <texture id="none" />
             <children>
@@ -205,7 +211,7 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
             <texture id="black" length_s="1" length_t="1" />
             <children>
@@ -220,7 +226,7 @@
                 <scale x = "0.1" y = "0.1" z = "0.1" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -234,7 +240,7 @@
                 <scale x = "0.1" y = "0.1" z = "0.1" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -249,7 +255,7 @@
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
             <texture id="carrot" length_s="1" length_t="1" />
             <children>
@@ -262,7 +268,7 @@
                 <translate x="0" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
             <texture id="none" />
             <children>
@@ -276,7 +282,7 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
             <texture id="stick" length_s="1" length_t="1" />
             <children>
@@ -292,7 +298,7 @@
                 <scale x = "0.1" y = "0.1" z = "1" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -308,7 +314,7 @@
                 <rotate axis="y" angle="180" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -322,11 +328,25 @@
                 <scale x = "1.4" y = "1.3" z = "1.4" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
-            <texture id="none" />
+            <texture id="none"/>
             <children>
                 <componentref id="snowball" />
+            </children>
+        </component>
+
+        <component id="snowball">
+            <transformation>
+                <rotate axis="y" angle="0" />
+            </transformation>
+            <materials>
+                <material id="snow" />
+                <material id="specularMaterial" />
+            </materials>
+            <texture id="snow" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="sphere" />
             </children>
         </component>
 
@@ -336,9 +356,10 @@
                 <scale x="6" y="6" z="6" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
+                <material id="specularMaterial" />
             </materials>
-            <texture id="inherit" />
+            <texture id="none" />
             <children>
                 <componentref id="house_right" />
                 <componentref id="house_left" />
@@ -355,7 +376,7 @@
                 <transformationref id="trans1" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="houseside" length_s="1" length_t="1" />
             <children>
@@ -368,7 +389,7 @@
                 <transformationref id="trans2" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="houseside" length_s="1" length_t="1" />
             <children>
@@ -381,7 +402,7 @@
                 <transformationref id="trans3" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="houseback" length_s="1" length_t="1" />
             <children>
@@ -394,7 +415,7 @@
                 <transformationref id="trans4" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="houseback" length_s="1" length_t="1" />
             <children>
@@ -407,7 +428,7 @@
                 <transformationref id="trans5" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="housefront" length_s="1" length_t="1" />
             <children>
@@ -420,7 +441,7 @@
                 <transformationref id="trans6" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="houseback" length_s="1" length_t="1" />
             <children>
@@ -434,9 +455,9 @@
                 <scale x="1.3" y="0.6" z="1.3" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
-            <texture id="roof" length_s="1" length_t="1" />
+            <texture id="snowroof" length_s="0.7" length_t="0.7" />
             <children>
                 <primitiveref id="roof_right" />
                 <primitiveref id="roof_left" />
@@ -452,7 +473,7 @@
                 <rotate axis="y" angle="180" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -466,7 +487,7 @@
                 <rotate axis="x" angle="30" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -481,7 +502,7 @@
                 <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -496,41 +517,11 @@
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
                 <primitiveref id="triangle" />
-            </children>
-        </component>
-          
-        <component id="trunk">
-            <transformation>
-                <translate x="0" y="0" z="0" />
-                <scale x="0.85" y="7" z="0.85" />
-                <rotate axis="x" angle="-90"/>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="trunk" length_s="1" length_t="1" />
-            <children>
-                <primitiveref id="cylinder" />
-            </children>
-        </component>
-
-        <component id="tree_top">
-            <transformation>
-                <translate x="0" y="7" z="0" />
-                <scale x="4.5" y="7" z="4.5" />
-                <rotate axis="x" angle="-90"/>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="leaves" length_s="1" length_t="1" />
-            <children>
-                <primitiveref id="cone" />
             </children>
         </component>
 
@@ -540,8 +531,7 @@
                 <rotate axis="y" angle="-30"/>
             </transformation>
             <materials>
-                <material id="diffuseMaterial" />
-                <material id="specularMaterial" />
+                <material id="tree" />
             </materials>
             <texture id="none" />
             <children>
@@ -556,7 +546,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="tree" />
             </materials>
             <texture id="none" />
             <children>
@@ -571,7 +561,7 @@
                 <rotate axis="y" angle="60"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="tree" />
             </materials>
             <texture id="none" />
             <children>
@@ -586,7 +576,7 @@
                 <rotate axis="y" angle="190"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="tree" />
             </materials>
             <texture id="none" />
             <children>
@@ -595,12 +585,43 @@
             </children>
         </component>
 
+        <component id="trunk">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="0.85" y="7" z="0.85" />
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="trunk" length_s="0.5" length_t="1" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id="tree_top">
+            <transformation>
+                <translate x="0" y="7" z="0" />
+                <scale x="4.5" y="7" z="4.5" />
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="leaves" length_s="0.5" length_t="0.5" />
+            <children>
+                <primitiveref id="cone" />
+            </children>
+        </component>
+
         <component id="campfire">
             <transformation>
                 <translate x="25" y="0" z="25" />
+                <scale x="1.2" y="1.2" z="1.2" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="none" />
             </materials>
             <texture id="none" />
             <children>
@@ -615,7 +636,7 @@
                 <scale x="0.8" y="0.8" z="0.8" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
             <texture id="stick" length_s="1" length_t="1" />
             <children>
@@ -634,7 +655,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -648,7 +669,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -662,7 +683,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -676,7 +697,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -690,7 +711,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -704,7 +725,7 @@
                 <transformationref id="stick" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -718,9 +739,10 @@
                 <scale x="0.8" y="0.8" z="0.8" />
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
+                <material id="fire" />
             </materials>
-            <texture id="fire" length_s="1" length_t="1"/>
+            <texture id="fire" length_s="0.5" length_t="0.5"/>
             <children>
                 <primitiveref id="cone" />
             </children>
@@ -732,7 +754,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="snow" />
+                <material id="diffuseMaterial" />
             </materials>
             <texture id="rock" length_s="1" length_t="1"/>
             <children>
@@ -749,7 +771,7 @@
             <materials>
                 <material id="snow" />
             </materials>
-            <texture id="snow" length_s="0.2" length_t="0.4" />
+            <texture id="snow" length_s="0.2" length_t="0.3" />
             <children>
                 <primitiveref id="rectangle" />
             </children>
