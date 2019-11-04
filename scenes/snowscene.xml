@@ -3,14 +3,14 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+            <from x="40" y="15" z="40" />
             <to x="0" y="-2" z="0" />
         </perspective>
         <perspective id="houseCamera" near="0.1" far="500" angle="30">
             <from x="50" y="10" z="16" />
             <to x="0" y="2" z="16" />
         </perspective>
-        <ortho id="snowmanCamera" near="1" far="50" left="-4" right="4" top="3" bottom="-3">
+        <ortho id="snowmanCamera" near="1" far="50" left="-4" right="4" top="2" bottom="-4">
             <from x="45" y="0" z="22"/>
             <to x="21" y="4" z="6"/>
         </ortho>
@@ -136,7 +136,7 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
         <primitive id="torus">
-            <torus inner="1" outer="1.5" slices="30" loops="30" />
+            <torus inner="0.25" outer="1.2" slices="30" loops="30" />
         </primitive>
         <primitive id="cylinder">
             <cylinder base="1" top="1" height="1" slices="30" stacks="30" />
@@ -756,7 +756,7 @@
             <materials>
                 <material id="diffuseMaterial" />
             </materials>
-            <texture id="rock" length_s="1" length_t="1"/>
+            <texture id="rock" length_s="1" length_t="0.2"/>
             <children>
                 <primitiveref id="torus" />
             </children>

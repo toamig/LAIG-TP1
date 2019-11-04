@@ -38,7 +38,7 @@ class MySceneGraph {
         this.axisCoords['z'] = [0, 0, 1];
 
         // File reading 
-        this.reader = new CGFXMLreader();
+        this.reader = new CGFXMLreader(); 
 
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.

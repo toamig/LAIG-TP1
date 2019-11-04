@@ -31,7 +31,7 @@ class MySphere extends CGFobject {
         var delta_ang_stack = (Math.PI/2)/this.stacks;
         var ang_slice = 0;
         var ang_stack = 0;
-        
+         
         for(var i = 0; i <= this.stacks; i++){
 
             ang_slice = 0;

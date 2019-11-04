@@ -11,7 +11,7 @@
 class MyTorus extends CGFobject {
 	constructor(scene, id, inner, outer, slices, loops) {
 		super(scene);
-
+		this.id = id;
 		this.slices = slices;
 		this.loops = loops;
 		this.inner = inner;
@@ -28,6 +28,9 @@ class MyTorus extends CGFobject {
 		this.normals = [];
 		this.texCoords = [];
 
+		var r = this.inner;
+        var R = this.outer;
+
 		for (var i = 0; i <= this.slices; i++) {
 
 			var angInt = i * 2 * Math.PI / this.slices;
@@ -39,9 +42,6 @@ class MyTorus extends CGFobject {
 				var angExt = j * 2 * Math.PI / this.loops;
 				var cosAngExt = Math.cos(angExt);
 				var sinAngExt = Math.sin(angExt);
-
-                var r = (this.inner - this.outer) / 2;
-                var R = this.outer + r;
 
 				var x = (R + r * cosAngInt) * cosAngExt;
 				var y = (R + r * cosAngInt) * sinAngExt;
@@ -73,7 +73,16 @@ class MyTorus extends CGFobject {
 	changeCoords(s, t){
 		this.length_s = s;
 		this.length_t = t;
-		this.updateTexCoords(this.texCoords);
+		var newCoords = []
+		for (var i = 0; i <= this.slices; i++) {
+			for (var j = 0; j <= this.loops; j++) {
+				var ss = (i / this.slices);
+				var tt = (j / this.loops);
+
+				newCoords.push(ss/this.length_s, tt/this.length_t);
+			}
+		}
+		this.updateTexCoords(newCoords);
 	}
 	
 	/**

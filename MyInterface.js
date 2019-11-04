@@ -34,7 +34,7 @@ class MyInterface extends CGFinterface {
 
 
     addViewController(views){
-
+ 
         var viewIds = Object.keys(views);
         this.gui.add(this.scene, 'activeCamera', viewIds).name('Camera').onChange(this.scene.updateView.bind(this.scene));
     }

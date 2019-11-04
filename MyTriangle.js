@@ -31,7 +31,7 @@ class MyTriangle extends CGFobject {
 	}
 	
 	initBuffers() {
-        this.normals = [];
+        this.normals = []; 
 
 		this.vertices = [
 			this.x1, this.y1, this.z1,	//0

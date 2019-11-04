@@ -42,7 +42,7 @@ class XMLscene extends CGFscene {
         
     }
 
-    /**
+    /** 
      * Called by interface to update the camera.
      */
     updateView(){

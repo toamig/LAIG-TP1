@@ -98,17 +98,17 @@ class MyCylinder extends CGFobject {
 		this.length_s = s;
 		this.length_t = t;
 		var newCoords = []
-		var t = 0
+		var tt = 0
 		for(var i = 0; i < this.stacks + 1; i++){
-			var s = 0
+			var ss = 0
 			for(var j = 0; j < this.slices + 1; j++){
-				newCoords.push(s/this.length_s,t/this.length_t);
-				s += this.delta_s;
+				newCoords.push(ss/this.length_s,tt/this.length_t);
+				ss += this.delta_s;
 			}
-			t += this.delta_t;
+			tt += this.delta_t;
 		}
 		this.updateTexCoords(newCoords);
-	}
+	} 
 
 	/**
 	 * @method updateTexCoords

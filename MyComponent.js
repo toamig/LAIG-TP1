@@ -12,7 +12,7 @@ class MyComponent{
         this.transformations = global[1];
         this.materials = global[2];
         this.texture = global[3];
-        this.children = global[4];
+        this.children = global[4]; 
 
         this.actualMat = this.actualMat || this.graph.materials[this.materials[this.graph.currentMaterial%this.materials.length]]; 
         this.actualTex = this.actualTex || this.graph.textures[this.texture[0]];
